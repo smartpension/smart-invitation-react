@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# smart-invitation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Goal
 
-## Available Scripts
+In this example application, we have a simple form (HTML). The idea is to hook up the form with the data and send a request to generate an invitation.
+Once the invitation is created, we want to see a message stating that the invitation is being generated. At this point, we want to start a polling service that will check if the newly created invitation has a value for `invitationUrl`.
+Once we have this value, the polling service should stop and the message will be updated with the correct `invitationUrl`
 
-In the project directory, you can run:
+### Steps
 
-### `npm start`
+- Get the current `user`'s data to pre-fill the form. (`firstName` and `lastName`)
+- Fetch the companies to display their names in the dropdown.
+- Hook up the form with the data.
+  - The data model for this form will be `invitation` and should be posted after all fields are filled.
+  - `firstName` and `lastName` will be pre-filled.
+  - Link the selected `company` to the `invitation`.
+  - Block the form from being sent withouth the **terms of service** agreement checkbox being checked.
+- After the form is sent, show a confirmation message (you can use [this markup](#Confirmation-markup))
+- You will see that the record is created, but the `invitationUrl` is empty. This will be populated after some time. Therefore we need to start a polling service. Keep polling every second untill the `invitationUrl` is populated.
+- Once we have the `invitationUrl`, change the title, and swap out the content in the `card-body` for new content incluing the `invitationUrl`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Bonus
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Make resolve any deprication warnings (if any show up)
+- Write a basic test to cover the functionality
+- Fetch the current user dynamically (there are 5 users in the DB)
 
-### `npm test`
+### Example
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Please see below an example of a working application.
 
-### `npm run build`
+<img src="./example.gif">
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Confirmation markup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```html
+<div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+  <div class="wrapper wrapper--w790">
+    <div class="card card-5">
+      <div class="card-heading">
+        <h2 class="title">Your invitation is being generated</h2>
+      </div>
+      <div class="card-body">
+        <p class="text">
+          You invitation is being generated, this page will be updated with the details of the invitation soon
+        </p>
+        <div class="d-flex justify-center">
+          <div class="lds-ripple">
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div class="p-t-20">
+          <a href="/" class="btn btn--radius-2 btn--red">Back</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## React
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+This project has been initated with [create-react-app](https://create-react-app.dev/).
+All API requests are caught by [MSW](https://mswjs.io/docs/)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Prerequisites
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+You will need the following things properly installed on your computer.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/) (with npm)
+- [Google Chrome](https://google.com/chrome/)
 
-## Learn More
+## Installation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `git clone <repository-url>` this repository
+- `cd smart-invitation-react`
+- `yarn install`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Running / Development
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `yarn start`
+- Visit your app at [http://localhost:3000](http://localhost:3000).
